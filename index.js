@@ -25,7 +25,6 @@ app.get("/test", (req, res) => {
 //start time route
 app.get("/time", (req, res) => {
   let date_ob = new Date();
-
   let hours = date_ob.getHours();
   let minutes = date_ob.getMinutes();
   let dateTime = hours + ':' + minutes;
@@ -115,6 +114,8 @@ const movies = [
   { title: 'Jaws', year: 1975, rating: 8 },
   { title: 'Avatar', year: 2009, rating: 7.8 },
   { title: 'Brazil', year: 1985, rating: 8 },
+  { title: 'E', year: 1985, rating: 8 },
+  { title: 'f', year: 1985, rating: 8 },
   { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
 
@@ -126,11 +127,77 @@ app.get("/movies/read", (req, res) => {
 });
 
 
+app.get("/movies/read/by-date", (req, res) => {
+
+  
+  movies.sort(function(a,b){
+  
+    return new Date(b.year) - new Date(a.year);
+  })
+ 
+   const response = {
+    status: 200,
+    data: movies,
+  };
+
+
+  res.send(response);
+
+});
 
 
 
 
-  // res.send(Array.isArray(myApp));
+
+
+
+app.get("/movies/read/by-rating", (req, res) => {
+
+  
+  movies.sort(function(b, a) {
+    return a.rating - b.rating;
+  });
+ 
+   const response = {
+    status: 200,
+    data: movies,
+  };
+
+
+  res.send(response);
+
+});
+
+
+app.get("/movies/read/by-title", (req, res) => {
+
+  
+  movies.sort(function (a, b) {
+
+  
+
+
+    let up1 = a.title.toLowerCase();
+    let up2 = b.title.toLowerCase();
+
+    if (up1 < up2){
+      return -1 ;
+    }
+    if (up2 > up2) {
+      return 1;
+    }
+    return 0;
+  });
+ 
+   const response = {
+    status: 200,
+    data: movies,
+  };
+
+
+  res.send(response);
+
+});
 
 
 
