@@ -78,12 +78,41 @@ app.get('/search',(req,res) => {
 
 
 
+app.get("/movies/add", (req, res) => {
 
-// start add rout
-app.get('/movies/add', (req, res) => {
-  res.send('add')
-})
-// end add rout
+
+      var newMovie = { title: "", year: null, rating: 4 };
+
+        newMovie.title = req.query.title;
+        newMovie.year = parseInt(req.query.year);
+
+    if (req.query.title !== undefined &&
+        req.query.title !== "" &&
+        !isNaN(req.query.year) && req.query.year !== "" && req.query.year.length == 4) 
+        {
+
+              if (req.query.rating == undefined) {
+              movies.push(newMovie);
+              res.send(movies);
+              } 
+              else {
+              newMovie.rating = parseFloat(req.query.rating);
+              movies.push(newMovie);
+              res.send(movies);
+              }
+        } 
+           
+              else {
+              res.status(403); 
+              const response = {
+              status: 403,
+              error: true,
+              message: "you cannot create a movie without providing a title and a year",
+              }
+              res.send(response);
+              } 
+});
+
 
 
 
@@ -114,8 +143,6 @@ const movies = [
   { title: 'Jaws', year: 1975, rating: 8 },
   { title: 'Avatar', year: 2009, rating: 7.8 },
   { title: 'Brazil', year: 1985, rating: 8 },
-  { title: 'E', year: 1985, rating: 8 },
-  { title: 'f', year: 1985, rating: 8 },
   { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
 
@@ -220,6 +247,9 @@ app.get("/movies/read/id/:id", (req, res) => {
       });
   }
 });
+
+
+
 
 
 

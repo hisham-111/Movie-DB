@@ -101,7 +101,8 @@ However, and this is important to understand, we will *not* create a front end i
     3. answer with the new list of movies just like for `/movies/read`
 - Make it so if:
     1. `<TITLE>` is missing, *or* 
-    2. `<YEAR>` is missing *or*
+    2. `<
+    >` is missing *or*
     3. `<YEAR>` is not made of 4 digits *or*
     4. `<YEAR>` is not a number
     6. ...then you answer `{status:403, error:true, message:'you cannot create a movie without providing a title and a year'}`
