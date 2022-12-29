@@ -3,6 +3,14 @@ const router = express.Router();
 const app = express()
 const port = 3000
 
+const movies = [
+  { title: 'Jaws', year: 1975, rating: 8 },
+  { title: 'Avatar', year: 2009, rating: 7.8 },
+  { title: 'Brazil', year: 1985, rating: 8 },
+  { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
+]
+
+
 // start first rout
 app.get('/', (req, res) => {
   res.send('OK!')
@@ -77,14 +85,11 @@ app.get('/search',(req,res) => {
 
 
 
-
+// CREATE
 app.get("/movies/add", (req, res) => {
-
-
       var newMovie = { title: "", year: null, rating: 4 };
-
-        newMovie.title = req.query.title;
-        newMovie.year = parseInt(req.query.year);
+        // newMovie.title = req.query.title;
+        // newMovie.year = req.query.year;
 
     if (req.query.title !== undefined &&
         req.query.title !== "" &&
@@ -132,19 +137,70 @@ app.get('/movies/edit', (req, res) => {
 
 
 
-// start delete rout
-app.get('/movies/delete', (req, res) => {
-  res.send('delete')
+// DELETE
+app.get('/movies/delete/:id', (req, res) => {
+  if (movies[req.params.id] == undefined) {
+      
+    res.send({
+        status: 404,
+        error: true,
+        message: `the movie ${req.params.id} does not exist`,
+    });
+    res.status(404);
+} else {
+    res.send({
+        status: 200,
+        data: movies[req.params.id],
+         });
+       }//endElse
+
+   
+      if(movies[req.params.id] !== undefined){
+        var popped = movies.pop();
+        res.send({
+          status: 200,
+          data: popped
+      });
+    
+      }//endIF
+    
+      let index = movies.map(r => {
+        return r.Id;
+      }).indexOf(id);
+
+
+      list.splice(index, 3);
+      res.send({
+        status: 200,
+        data: movies[req.params.id]
+    });
+
+    res.send(movies[req.params.id]) 
+
+
+
 })
-// end delete rout
 
 
-const movies = [
-  { title: 'Jaws', year: 1975, rating: 8 },
-  { title: 'Avatar', year: 2009, rating: 7.8 },
-  { title: 'Brazil', year: 1985, rating: 8 },
-  { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
-]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get("/movies/read", (req, res) => {
   res.send({
