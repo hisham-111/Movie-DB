@@ -88,8 +88,8 @@ app.get('/search',(req,res) => {
 // CREATE
 app.get("/movies/add", (req, res) => {
       var newMovie = { title: "", year: null, rating: 4 };
-        // newMovie.title = req.query.title;
-        // newMovie.year = req.query.year;
+        newMovie.title = req.query.title;
+        newMovie.year = req.query.year;
 
     if (req.query.title !== undefined &&
         req.query.title !== "" &&
@@ -129,13 +129,71 @@ app.get('/movies/get', (req, res) => {
 
 
 
-// start edit rout
-app.get('/movies/edit', (req, res) => {
-  res.send('edit')
-})
-// end edit rout
+// EDIT
+app.get('/movies/edit/:id', (req, res) => {
+
+          if(isNaN(req.params.id)){
+            res.status(404);
+            res.send({
+              status:404,
+              error:true,
+              message:"ENTER VALID  IDS "
+            });
+            
+
+          }  else if (req.params.id < 0 || req.params.id > movies.length - 1){
+            res.status(404);
+            res.send({
+              status: 404,
+              error: true,
+              message: `THE MOVIE ${req.params.id} DOES NOT EXIST`,
+            })
+            
+          }
+
+          else {
+
+            if (req.query.title !== undefined && req.query.title !== "") {
+
+                movies[req.params.id] = {
+                  ...movies[req.params.id],
+                    title: req.query.title,};}
+            if (!isNaN(req.query.year) && req.query.year.length == 4) {
+                movies[req.params.id] = {
+                 ...movies[req.params.id],
+                    year: req.query.year,};}
+            if (!isNaN(req.query.rating) && req.query.rating !== undefined ) {
+                movies[req.params.id] = {
+                 ...movies[req.params.id],
+                    rating: parseFloat(req.query.rating),};}
+
+            res.send(movies);
+        }
+
+            
+
+  })
 
 
+
+//  const newMovie = {} ;
+ 
+//  let foundIndex = movies.findIndex(find => find.id == newMovie.id);
+//  movies[foundIndex] = newMovie;
+
+
+//  movies.forEach((element, index) => {
+//   if(element.id === newMovie.id) {
+//       movies[index] = newMovie;
+//   }
+// });
+
+
+
+
+// app.get("/movies/delete/" , (req ,res)) =>{
+//   res.send("delete");
+// }
 
 // DELETE
 app.get('/movies/delete/:id', (req, res) => {
@@ -180,19 +238,6 @@ app.get('/movies/delete/:id', (req, res) => {
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
