@@ -175,25 +175,83 @@ app.get('/movies/edit/:id', (req, res) => {
   })
 
 
+//REST API
 
-//  const newMovie = {} ;
- 
-//  let foundIndex = movies.findIndex(find => find.id == newMovie.id);
-//  movies[foundIndex] = newMovie;
-
-
-//  movies.forEach((element, index) => {
-//   if(element.id === newMovie.id) {
-//       movies[index] = newMovie;
-//   }
-// });
+app.get(`/movies/add`, function (req, res) {
+  app.post(`/`, function (req, res) {
+    var newMovie = { title: "", year: null, rating: 4 };
+    newMovie.title = req.query.title;
+    newMovie.year = req.query.year;});
+});
 
 
+app.get(`/movies/edit/:id`, function (req, res) {
+	app.put('/movies/edit/:id', (req, res) => {
+
+    if(isNaN(req.params.id)){
+      res.status(404);
+      res.send({
+        status:404,
+        error:true,
+        message:"ENTER VALID  IDS "
+      });
+      
+
+    } 
+});
+});
 
 
-// app.get("/movies/delete/" , (req ,res)) =>{
-//   res.send("delete");
-// }
+app.get(`/movies/delete/:id`, function (req, res) {
+	app.delete('/movies/delete/:id', (req, res) => {
+    if (movies[req.params.id] == undefined) {
+        
+      res.send({
+          status: 404,
+          error: true,
+          message: `the movie ${req.params.id} does not exist`,
+      });
+      res.status(404);
+  } else {
+      res.send({
+          status: 200,
+          data: movies[req.params.id],
+           });
+         }//endElse
+  
+     
+        if(movies[req.params.id] !== undefined){
+          var popped = movies.pop();
+          res.send({
+            status: 200,
+            data: popped
+        });
+      
+        }//endIF
+      
+        let index = movies.map(r => {
+          return r.Id;
+        }).indexOf(id);
+  
+  
+        list.splice(index, 3);
+        res.send({
+          status: 200,
+          data: movies[req.params.id]
+      });
+  
+      res.send(movies[req.params.id]) 
+  
+  
+  
+  })
+});
+
+//END REST API
+
+app.get("/movies/delete" , (req ,res)) => {
+  res.send("delete");
+}
 
 // DELETE
 app.get('/movies/delete/:id', (req, res) => {
