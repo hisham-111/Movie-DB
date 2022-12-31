@@ -156,14 +156,17 @@ app.get('/movies/edit/:id', (req, res) => {
             if (req.query.title !== undefined && req.query.title !== "") {
 
                 movies[req.params.id] = {
-                  ...movies[req.params.id],
+                  //Spread Syntax 
+                 ...movies[req.params.id],
                     title: req.query.title,};}
             if (!isNaN(req.query.year) && req.query.year.length == 4) {
                 movies[req.params.id] = {
+                  //Spread Syntax 
                  ...movies[req.params.id],
                     year: req.query.year,};}
             if (!isNaN(req.query.rating) && req.query.rating !== undefined ) {
                 movies[req.params.id] = {
+                  //Spread Syntax 
                  ...movies[req.params.id],
                     rating: parseFloat(req.query.rating),};}
 
